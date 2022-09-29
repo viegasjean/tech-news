@@ -107,9 +107,9 @@ def test_get_tech_news(mocker):
 
     for amount in [1, 5, 13, 30]:
         # Act
+        mocked_create_news = mocker.patch("tech_news.scraper.create_news")
         result = get_tech_news(amount)
         mocked_create_news.assert_called_once_with(result)
-        mocked_create_news = mocker.patch("tech_news.scraper.create_news")
 
         # Assert
         # A função retorna a quantidade correta de notícias
