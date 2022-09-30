@@ -15,18 +15,22 @@ def search_by_title(title):
 def search_by_date(date):
     """Seu código deve vir aqui"""
     try:
-        data = datetime.strptime(date, "%Y-%m-%d")
-    except ValueError():
-        raise ValueError('Data inválida')
+        date = datetime.strptime(date, "%Y-%m-%d")
 
-    news = search_news({'date': data})
-    return news
+    except (ValueError):
+        raise ValueError('Data inválida')
+    print(date)
+    date = date.strftime("%d/%m/%Y")
+    print(type(date))
+    news = search_news({'timestamp': date})
+    return [(item['title'], item['url']) for item in news]
 
 
 # Requisito 8
 def search_by_tag(tag):
     """Seu código deve vir aqui"""
-
+    news = search_news({'tag': {'$regex': tag, '$options': 'i'}})
+    return [(item['title'], item['url']) for item in news]
 
 # Requisito 9
 def search_by_category(category):
