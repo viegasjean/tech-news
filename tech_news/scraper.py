@@ -65,18 +65,22 @@ def scrape_noticia(html_content):
 # Requisito 5
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
-    html_content = fetch("https://blog.betrybe.com/")
+    html_content = fetch("https://blog.betrybe.com")
     news_links = scrape_novidades(html_content)
 
     while len(news_links) < amount:
         next_page_link = scrape_next_page_link(html_content)
         html_content = fetch(next_page_link)
-        news_links.append(scrape_novidades(html_content))
+        news_links.extend(scrape_novidades(html_content))
+
     all_links = news_links[:amount]
 
-    data = []
+    data = list()
     for url in all_links:
-        noticia = scrape_noticia(fetch(url))
+        page_content = fetch(url)
+        noticia = scrape_noticia(page_content)
         data.append(noticia)
 
     create_news(data)
+
+    return data
